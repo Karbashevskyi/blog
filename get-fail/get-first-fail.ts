@@ -22,7 +22,7 @@ export type GetFirstFailOptions = {
 };
 
 export class InvalidRuleResultError extends Error {
-  constructor(index: number, ruleName: string, cause?: unknown) {
+  public constructor(index: number, ruleName: string, cause?: unknown) {
     super(`Rule at index ${index} (${ruleName}) returned invalid result. Expected boolean | string | { pass/fail }.`);
     this.name = 'InvalidRuleResultError';
     this.cause = cause;
@@ -48,12 +48,8 @@ function parseResult(result: unknown, index: number, ruleName: string): { failed
     throw new InvalidRuleResultError(index, ruleName, cause);
   };
 
-  // boolean (NEW SEMANTICS)
-  if (typeof result === 'boolean') {
-    return { failed: !result };
-  }
+  if (typeof result === 'boolean') return { failed: !result };
 
-  // string
   if (typeof result === 'string') {
     if (result.length > 0) {
       return { failed: true, message: result };
@@ -61,7 +57,6 @@ function parseResult(result: unknown, index: number, ruleName: string): { failed
     return { failed: false };
   }
 
-  // object
   if (result && typeof result === 'object') {
     const { fail, pass, message } = result as RuleResultObject;
 
