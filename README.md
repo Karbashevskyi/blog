@@ -10,7 +10,7 @@ This repository acts as a personal technical journal — focused on clarity, min
 
 ### Validation
 
-- 🔹 [getFirstFail](..get-first-fail/)  
+- 🔹 [getFirstFail](./get-first-fail/)  
   Fail-fast sequential validation utility with positive semantics.
 
 ---

@@ -25,6 +25,7 @@ if (!payload.email.includes('@')) {
   logger.warn('Invalid email');
   return;
 }
+```
 
 It works — but:
 	•	Logic becomes repetitive
@@ -54,14 +55,16 @@ false → rule failed
 
 You can also use a string shorthand:
 
+```ts
 !!value || 'Value is required'
-
+```
 If the expression resolves to a non-empty string — it becomes the failure message.
 
 ⸻
 
 Example
 
+```ts
 const fail = getFirstFail(
   !!argument                    || 'Argument is empty',
   typeof argument === 'string'  || 'Argument must be a string',
@@ -70,20 +73,21 @@ const fail = getFirstFail(
 );
 
 if (fail) return void logger.warn(fail.message);
-
+```
 This reads almost like a list of requirements.
 
 ⸻
 
 Async Example
 
+```ts
 const fail = await getFirstFailAsync(
   async () => await userExists()    || 'User does not exist',
   () => isAllowed()                 || 'Access denied'
 );
 
 if (fail) return void console.error(fail.message);
-
+```
 
 ⸻
 
@@ -98,19 +102,21 @@ false // fail
 
 String (error shorthand)
 
+```ts
 !!value || 'Value is required'
-
+```
 	•	Non-empty string → fail
 	•	Empty string → pass
 
 Object
 
+```ts
 { pass: true }
 { pass: false, message: 'Invalid' }
 
 { fail: true, message: 'Invalid' }
 { fail: false }
-
+```
 
 ⸻
 
@@ -118,12 +124,13 @@ Return Type
 
 If validation fails:
 
+```ts
 type FailInfo = {
   message: string;
   index: number;
   ruleName: string;
 };
-
+```
 If everything passes:
 
 false
@@ -147,6 +154,7 @@ Error Handling
 
 By default, thrown errors are treated as failures:
 
+```ts
 getFirstFail(() => {
   throw new Error('Boom');
 });
@@ -159,7 +167,7 @@ getFirstFail(
     throw new Error('Boom');
   }
 );
-
+```
 
 ⸻
 
